@@ -1,0 +1,79 @@
+<!--<form>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <button type="button" onClick="makePayment()">Pay Now</button>
+</form>
+
+<script>
+   var params = new URLSearchParams(window.location.search);  
+    var amount = params.get("amount");
+  function makePayment() {
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
+      tx_ref: "hooli-tx-1920bbtyt",
+      amount: amount,
+      currency: "NGN",
+      payment_options: "card, mobilemoneyghana, ussd",
+      redirect_url: // specified redirect URL
+        "/result.html",
+      meta: {
+        consumer_id: 23,
+        consumer_mac: "92a3-912ba-1192a",
+      },
+      customer: {
+        email: "user@gmail.com",
+        phone_number: "08102909304",
+        name: "yemi desola",
+      },
+      callback: function (data) {
+        console.log(data);
+      },
+      onclose: function() {
+        // close modal
+      },
+      customizations: {
+        title: "My store",
+        description: "Payment for items in cart",
+        logo: "https://assets.piedpiper.com/logo.png",
+      },
+    });
+  }
+</script> 
+-->
+
+<form>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <button type="button" onClick="makePayment()">Pay Now</button>
+</form>
+
+<script>
+     var params = new URLSearchParams(window.location.search);  
+    var amount = params.get("amount");
+    var email = params.get("email");
+    var name = params.get("name");
+    var phone = params.get("phone");
+    
+  function makePayment() {
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK_TEST-31d61a13026483fc38f15f0e90232374-X",
+      tx_ref: "hooli-tx-1920bbtyt",
+      amount: amount,
+      currency: "NGN",
+      payment_options: "card,mobilemoney,ussd",
+      customer: {
+        email: email,
+        phonenumber: phone,
+        name: name,
+      },
+      callback: function (data) { // specified callback function
+        console.log(data);
+        window.history.pushState("", "", data.status+ "?transaction_id="+ data.transaction_id);
+   
+      },
+      customizations: {
+        title: "KMN",
+        description: "Payment for rides",
+        logo: "https://assets.piedpiper.com/logo.png",
+      },
+    });
+  }
+</script>
