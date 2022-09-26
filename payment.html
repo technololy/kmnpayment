@@ -51,11 +51,12 @@
     var email = params.get("email");
     var name = params.get("name");
     var phone = params.get("phone");
+    var trnxRef = params.get("tx_ref"); 
     
   function makePayment() {
     FlutterwaveCheckout({
       public_key: "FLWPUBK_TEST-f1ea6f74705ea0373373c18dd8977ccc-X",
-      tx_ref: "hooli-tx-1920bbtyt",
+      tx_ref: trnxRef,
       amount: amount,
       currency: "NGN",
       payment_options: "card,mobilemoney,ussd",
