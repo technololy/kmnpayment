@@ -67,7 +67,7 @@
       },
       callback: function (data) { // specified callback function
         const Http = new XMLHttpRequest();
-        const url = 'https://kmnapi.azurewebsites.net/api/Transactions/SavePaymentFromVendor/'+data.transaction_id+'/'+email+'/'+amount+'/'+data.tx_ref+'/'+data.flw_ref+'/'+data.status;
+        const url = 'https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor/'+data.transaction_id+'/'+email+'/'+amount+'/'+data.tx_ref+'/'+data.flw_ref+'/'+data.status;
         Http.open("GET",url);
         Http.send();
         Http.onreadystatechange = function(){
