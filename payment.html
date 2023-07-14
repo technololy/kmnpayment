@@ -42,7 +42,7 @@
 
 <form>
   <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <button type="button" onClick="makePayment()">Begin Test Top Up</button>
+  <button type="button" onClick="makePayment()">Top Up Wallet...</button>
 </form>
 
 <script>
@@ -55,7 +55,7 @@
     
   function makePayment() {
     FlutterwaveCheckout({
-      public_key: "FLWPUBK_TEST-f1ea6f74705ea0373373c18dd8977ccc-X",
+      public_key: "FLWPUBK-7a752908849ffd63cccbda65804657ae-X",
       tx_ref: trnxRef,
       amount: amount,
       currency: "NGN",
@@ -67,7 +67,7 @@
       },
       callback: function (data) { // specified callback function
         const Http = new XMLHttpRequest();
-        const url = `https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor/${encodeURIComponent(data.transaction_id)}/${encodeURIComponent(email)}/${encodeURIComponent(amount)}/${encodeURIComponent(data.tx_ref)}/${encodeURIComponent(data.flw_ref)}/${encodeURIComponent(data.status)}`;
+        const url = `https://kmnfinal-prod.azurewebsites.net/api/Transactions/SavePaymentFromVendor/${encodeURIComponent(data.transaction_id)}/${encodeURIComponent(email)}/${encodeURIComponent(amount)}/${encodeURIComponent(data.tx_ref)}/${encodeURIComponent(data.flw_ref)}/${encodeURIComponent(data.status)}`;
         Http.open("GET",url);
         Http.send();
         Http.onreadystatechange = function(){
