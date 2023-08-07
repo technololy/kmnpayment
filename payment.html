@@ -28,7 +28,7 @@
         const Http = new XMLHttpRequest();
         const url = `https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor`;
         Http.open("POST",url);
-        xhr.setRequestHeader("Content-Type", "application/json");
+        Http.setRequestHeader("Content-Type", "application/json");
         Http.send(data);
         Http.onreadystatechange = function(){
           if(this.readyState==4 && this.status==200){
