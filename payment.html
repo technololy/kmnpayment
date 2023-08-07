@@ -1,7 +1,6 @@
 
 <form>
   <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <button type="button" onClick="makePayment()">Begin Test Top Up</button>
 </form>
 
 <script>
@@ -12,11 +11,13 @@
     var phone = params.get("phone");
     var trnxRef = params.get("tx_ref"); 
     
+  window.onload = makePayment;
+
   function makePayment() {
     FlutterwaveCheckout({
       public_key: "FLWPUBK_TEST-f1ea6f74705ea0373373c18dd8977ccc-X",
       tx_ref: trnxRef,
-      amount: amount + 7.5,
+      amount: amount,
       currency: "NGN",
       payment_options: "card,mobilemoney,ussd",
       customer: {
@@ -40,7 +41,7 @@
    
       },
       customizations: {
-        title: "KMN Test",
+        title: "KMN Test Test",
         description: "Test Payment for rides",
         logo: "https://assets.piedpiper.com/logo.png",
       },
