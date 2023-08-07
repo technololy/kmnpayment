@@ -26,9 +26,9 @@
       },
       callback: function (data) { // specified callback function
         const Http = new XMLHttpRequest();
-        const url = `https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor/${encodeURIComponent(data.transaction_id)}/${encodeURIComponent(email)}/${encodeURIComponent(amount)}/${encodeURIComponent(data.tx_ref)}/${encodeURIComponent(data.flw_ref)}/${encodeURIComponent(data.status)}`;
-        Http.open("GET",url);
-        Http.send();
+        const url = `https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor`;
+        Http.open("POST",url);
+        Http.send(data);
         Http.onreadystatechange = function(){
           if(this.readyState==4 && this.status==200){
             console.log(Http.ResponseText)
