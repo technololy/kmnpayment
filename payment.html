@@ -25,6 +25,9 @@
         name: name,
       },
       callback: function (data) { // specified callback function
+        data.customer.name = name;
+        data.customer.email = email;
+        data.customer.phone_number = phone;
         fetch("https://kmnfinal-prod.azurewebsites.net/api/Transactions/SavePaymentFromVendor", {
           method: "POST",
           headers: {"Content-type": "application/json; charset=UTF-8"},
