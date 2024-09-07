@@ -5,61 +5,71 @@
     <meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/>
     <title>My test page</title>
     <form>
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
-</form>
+      <script src="https://checkout.flutterwave.com/v3.js"></script>
+    </form>
 
-<script>
-     var params = new URLSearchParams(window.location.search);  
-    var amount = params.get("amount");
-    var email = params.get("email");
-    var name = params.get("name");
-    var phone = params.get("phone");
-    var trnxRef = params.get("tx_ref"); 
-    
-  window.onload = makePayment;
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      var amount = params.get("amount");
+      var email = params.get("email");
+      var name = params.get("name");
+      var phone = params.get("phone");
+      var trnxRef = params.get("tx_ref");
+      var appType = params.get("app_type");
 
-  function makePayment() {
-    FlutterwaveCheckout({
-      public_key: "FLWPUBK_TEST-f1ea6f74705ea0373373c18dd8977ccc-X",
-      tx_ref: trnxRef,
-      amount: amount,
-      currency: "NGN",
-      payment_options: "card, mobilemoney, ussd, mobilemoneyfranco, account",
-      customer: {
-        email: email,
-        phonenumber: phone,
-        name: name,
-      },
-      callback: function (data) { // specified callback function
-        data.customer.name = name;
-        data.customer.email = email;
-        data.customer.phone_number = phone;
-        fetch("https://knowmynetworkbackend.azurewebsites.net/api/Transactions/SavePaymentFromVendor", {
-          method: "POST",
-          headers: {"Content-type": "application/json; charset=UTF-8"},
-          body: JSON.stringify(data),
-        }).then(resp => {
-          if(resp.status === 200){
-            console.log("payment completed successfully")
-          }
-          else if(resp.status == 400 || resp.status == 500){
-            resp.json(result => console.log(result));
-          }
-          window.history.pushState("", "", data.status+ "?transaction_id="+ data.transaction_id);
-        }).catch(err => console.error(err));
-   
-      },
-      customizations: {
-        title: "KMN Test Test",
-        description: "Test Payment for rides",
-        logo: "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
-      },
-    });
-  }
-</script>
+      // Set the appropriate base URL based on the app type
+      var baseUrl = "";
+      if (appType === "kmn") {
+        baseUrl = "https://knowmynetworkbackend.azurewebsites.net";
+      } else if (appType === "coround") {
+        baseUrl = "https://coround.azurewebsites.net";
+      } else {
+        console.error("Invalid app type");
+        return;
+      }
 
+      window.onload = makePayment;
+
+      function makePayment() {
+        FlutterwaveCheckout({
+          public_key: "FLWPUBK_TEST-f1ea6f74705ea0373373c18dd8977ccc-X",
+          tx_ref: trnxRef,
+          amount: amount,
+          currency: "NGN",
+          payment_options: "card, mobilemoney, ussd, mobilemoneyfranco, account",
+          customer: {
+            email: email,
+            phonenumber: phone,
+            name: name,
+          },
+          callback: function (data) { // specified callback function
+            data.customer.name = name;
+            data.customer.email = email;
+            data.customer.phone_number = phone;
+            
+            // Use the dynamically selected base URL for the fetch request
+            fetch(baseUrl + "/api/Transactions/SavePaymentFromVendor", {
+              method: "POST",
+              headers: {"Content-type": "application/json; charset=UTF-8"},
+              body: JSON.stringify(data),
+            }).then(resp => {
+              if (resp.status === 200) {
+                console.log("payment completed successfully");
+              } else if (resp.status == 400 || resp.status == 500) {
+                resp.json().then(result => console.log(result));
+              }
+              window.history.pushState("", "", data.status + "?transaction_id=" + data.transaction_id);
+            }).catch(err => console.error(err));
+          },
+          customizations: {
+            title: appType === "kmn" ? "KMN Test" : "CoRound Test",
+            description: "Test Payment for " + (appType === "kmn" ? "rides" : "CoRound"),
+            logo: "https://fastly.picsum.photos/id/28/4928/3264.jpg?hmac=GnYF-RnBUg44PFfU5pcw_Qs0ReOyStdnZ8MtQWJqTfA",
+          },
+        });
+      }
+    </script>
   </head>
   <body>
-   
   </body>
 </html>
